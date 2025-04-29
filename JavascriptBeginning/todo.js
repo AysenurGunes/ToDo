@@ -1,8 +1,8 @@
 const form = document.querySelector("#todo-form");
 const todoinput=document.querySelector("#todo");
 const todolist=document.querySelector(".list-group");
-const firstCardBody=document.querySelector(".card-body")
-//const secondCardBody = document.querySelector(".card-body")[1];
+const firstCardBody=document.querySelectorAll(".card-body")[0];
+const secondCardBody = document.querySelectorAll(".card-body")[1];
 const filter=document.querySelector("#filter");
 const clearButton=document.querySelector("#clear-todos");
 eventListeners();
@@ -10,6 +10,31 @@ eventListeners();
 function eventListeners(){ // Tüm event listers
 form.addEventListener("submit",addTodo);
 document.addEventListener("DOMContentLoaded", loadAllTodosToUI);
+secondCardBody.addEventListener("click",deleteTodo);
+filter.addEventListener("keyup",filtrTodos);
+}
+
+function deleteTodo(e){
+
+    if (e.target.className==="fa fa-remove") {
+        //parent elementleri bulup silmelisin
+        let element=e.target.parentElement.parentElement;
+     element.remove();//only delete ui
+     console.log(element);
+        deleteTodoFromStorage(element.textContent);
+        showAlert("success","ToDo silindi");
+    }
+    console.log(e.target);
+}
+function deleteTodoFromStorage(deleteTodo){
+let todos=getTodosFromStorage();
+
+todos.forEach(function(todo,index){
+    if (todo===deleteTodo) {
+        todos.splice(index,1); //remove item from array
+    }
+});
+localStorage.setItem("todos", JSON.stringify(todos));
 }
 function loadAllTodosToUI(){
     let todos =getTodosFromStorage();
@@ -57,7 +82,7 @@ function showAlert(type,message)
     alert.className="alert alert-".concat(type);
     alert.textContent=message;
     firstCardBody.appendChild(alert);
-    setTimeout(function(){ alert.remove();},2000)
+    setTimeout(function(){ alert.remove();},1000)
     
 }
 function addTodoToUI(newTodo)
@@ -76,5 +101,4 @@ listItem.appendChild(link);
 
 todolist.appendChild(listItem);
 todoinput.value="";
-console.log(listItem);
 }
