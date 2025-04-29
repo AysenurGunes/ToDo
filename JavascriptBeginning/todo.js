@@ -16,18 +16,34 @@ function addTodo(e){
     const newTodo=todoinput.value.trim();
     if(newTodo==="")
         {
-
-//             <div class="alert alert-danger" role="alert">
-//   A simple danger alert—check it out!
-// </div>
         showAlert("danger","To-do girmelisiniz.");
         }
     else{
 
         addTodoToUI(newTodo);
+        addTodoToStorage(newTodo);
     }
     e.preventDefault();
 }
+
+function getTodosFromStorage(){
+    let todos;
+    if (localStorage.getItem("todos")===null)
+     {
+        todos=[];
+    
+     }else{
+    todos= JSON.parse(localStorage.getItem("todos"));
+ }
+return todos
+}
+function addTodoToStorage(newTodo)
+{
+
+    let todos=getTodosFromStorage();
+    todos.push(newTodo);
+    localStorage.setItem("todos", JSON.stringify(todos));//arrayleri stringe cevirir stringify
+} 
 function showAlert(type,message)
 {
 
