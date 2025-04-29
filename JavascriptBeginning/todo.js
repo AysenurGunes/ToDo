@@ -11,9 +11,24 @@ function eventListeners(){ // Tüm event listers
 form.addEventListener("submit",addTodo);
 document.addEventListener("DOMContentLoaded", loadAllTodosToUI);
 secondCardBody.addEventListener("click",deleteTodo);
-filter.addEventListener("keyup",filtrTodos);
+filter.addEventListener("keyup",filterTodos);
 }
+function filterTodos(e){
+    const filterValue=e.target.value.toLowerCase();
+    const listItems=document.querySelectorAll(".list-group-item");
 
+    listItems.forEach(function(listItem){
+        const text=listItem.textContent.toLowerCase();
+        if (text.indexOf(filterValue)===-1) {
+            listItem.setAttribute("style","display:none !important");//important tüm css özellikleri yok sayar.
+         
+        }
+        else{
+            listItem.setAttribute("style","display:block");
+           
+        }
+    })
+}
 function deleteTodo(e){
 
     if (e.target.className==="fa fa-remove") {
