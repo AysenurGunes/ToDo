@@ -12,6 +12,19 @@ form.addEventListener("submit",addTodo);
 document.addEventListener("DOMContentLoaded", loadAllTodosToUI);
 secondCardBody.addEventListener("click",deleteTodo);
 filter.addEventListener("keyup",filterTodos);
+clearButton.addEventListener("click",clearAllTodos);
+}
+function clearAllTodos(e){
+    //clear all todos on ui
+    if (confirm("Tümünü silmek istediğinize emin misiniz?")) {
+        
+        //todolist.innerHTML="";//yavaş çözüm
+while (todolist.firstElementChild!=null) {
+    todolist.removeChild(todolist.firstElementChild);
+}
+localStorage.removeItem("todos");
+        
+    }
 }
 function filterTodos(e){
     const filterValue=e.target.value.toLowerCase();
@@ -35,11 +48,11 @@ function deleteTodo(e){
         //parent elementleri bulup silmelisin
         let element=e.target.parentElement.parentElement;
      element.remove();//only delete ui
-     console.log(element);
+    
         deleteTodoFromStorage(element.textContent);
         showAlert("success","ToDo silindi");
     }
-    console.log(e.target);
+   
 }
 function deleteTodoFromStorage(deleteTodo){
 let todos=getTodosFromStorage();
